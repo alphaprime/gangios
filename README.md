@@ -29,9 +29,9 @@ Generate metric from Ruby and send it over UDP
       :dmax => 300          # lifetime in seconds of this metric
     )
 
-To get summary information, use GridSummary, ClusterSummary
+To get summary information, use Summary::Grid, Summary::Cluster
 
-    grid = Gangios::GridSummary.new
+    grid = Gangios::Base::Summary::Grid.new
 
     puts grid.hosts.up
     grid.metrics.each do |metric|
@@ -40,7 +40,7 @@ To get summary information, use GridSummary, ClusterSummary
 
     cluster = grid.clusters['clustername']
     # - or -
-    cluster = Gangios::Cluster.new 'clustername'
+    cluster = Gangios::Base::Summary::Cluster.new 'clustername'
 
     cluster.metrics.each do |metric|
     	puts "#{metric.name}  =>  #{metric.val}" 
@@ -48,14 +48,18 @@ To get summary information, use GridSummary, ClusterSummary
 
 To get more information(information of each host), use Grid, Cluster & Host
 
-    grid = Gangios::Grid.new
+    grid = Gangios::Base::Grid.new
     grid.clusters.each do |cluster|
       cluster.hosts.each do |host|
         host.metrics.each do |metric|
-          puts metric.name, metric.val, metric.desc, nil
+          puts metric.name, metric.val
         end
       end
     end
+
+    Gangios::Base::Grid.new.clusters
+    # equal to
+    Gangios::Base::Cluster.all
 
 ## Contributing
 
